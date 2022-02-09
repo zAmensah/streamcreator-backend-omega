@@ -9,7 +9,7 @@ const {
 
 router.get("/channel/user", JWT, getUserChannel);
 
-router.get("/channel/single/:channelId", singleChannel);
+router.get("/channel/single/:channelId", JWT, singleChannel);
 
 router.post("/channel/add", JWT, addChannel);
 

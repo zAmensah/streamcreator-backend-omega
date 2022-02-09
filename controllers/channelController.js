@@ -1,7 +1,9 @@
 const Channel = require("../models/channel");
 
 exports.getUserChannel = async (req, res) => {
-  const userChannel = await Channel.find({ user: req.user }).select("name");
+  const userChannel = await Channel.find({ user: req.user })
+    .select("name videos cover")
+    .populate("videos");
 
   return res.json({ success: true, userChannel });
 };
