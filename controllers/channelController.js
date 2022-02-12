@@ -2,8 +2,8 @@ const Channel = require("../models/channel");
 
 exports.getUserChannel = async (req, res) => {
   const userChannel = await Channel.find({ user: req.user })
-    .select("name videos cover")
-    .populate("videos");
+    .populate("videos")
+    .select("name logo about totalLikes");
 
   return res.json({ success: true, userChannel });
 };
@@ -33,5 +33,22 @@ exports.singleChannel = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "Error adding channel" });
+  }
+};
+
+exports.editChannel = async (req, res) => {
+  const { channelId } = req.params;
+
+  try {
+    const channel = await Channel.findById(channelId);
+
+    channel.about = req.body.about;
+
+    channel.save();
+    res.json({ success: true, message: "Edit done" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Error Editing Channel Details" });
   }
 };
