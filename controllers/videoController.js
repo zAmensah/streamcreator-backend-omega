@@ -1,5 +1,6 @@
 const Video = require("../models/video.js");
 const Channel = require("../models/channel");
+const video = require("../models/video.js");
 
 exports.addVideo = async (req, res) => {
   try {
@@ -41,19 +42,13 @@ exports.singleVideo = async (req, res) => {
   }
 };
 
-// ===========================
+exports.videoView = async (req, res, next) => {
+  const { videoId } = req.params;
 
-// CHANNELS SECTION
-// ===========================
+  const video = await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
 
-exports.addChannel = async (req, res) => {
-  try {
-    let channel = new Channel(req.body);
-    channel.user = req.user;
+  if (!video)
+    return res.status(400).json({ success: false, message: "view not added" });
 
-    await channel.save();
-    res.json({ success: true, message: "Channel created Successfully" });
-  } catch (error) {
-    return rres.status(500).json({ success: false, message: error });
-  }
+  next();
 };

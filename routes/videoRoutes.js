@@ -6,13 +6,14 @@ const {
   allVideos,
   addChannel,
   singleVideo,
+  videoView,
 } = require("../controllers/videoController");
 
 router.post("/video/add", JWT, addVideo);
 
 router.get("/videos/all", allVideos);
 
-router.get("/videos/single/:videoId", singleVideo);
+router.get("/videos/single/:videoId", videoView, singleVideo);
 
 /// Channel Section
 router.post("/channel/add", JWT, addChannel);
