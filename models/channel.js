@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const slug = require("slug");
+
 const { ObjectId } = mongoose.Schema;
 
 const channelSchema = new mongoose.Schema(
@@ -15,6 +16,7 @@ const channelSchema = new mongoose.Schema(
   {
     toObject: { virtuals: true },
     toJSON: { virtuals: true },
+    timestamps: true,
   }
 );
 

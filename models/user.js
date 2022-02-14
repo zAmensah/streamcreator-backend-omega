@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+const { ObjectId } = mongoose.Schema;
+
 const saltRound = 10;
 
 const userSchema = new mongoose.Schema(
@@ -13,6 +15,7 @@ const userSchema = new mongoose.Schema(
     resetToken: String,
     expireToken: Date,
     uuid: { type: String, unique: true },
+    subscriptions: [{ type: ObjectId, ref: "Channel" }],
   },
   { timestamps: true }
 );

@@ -1,4 +1,5 @@
 const Channel = require("../models/channel");
+const User = require("../models/user");
 
 exports.getUserChannel = async (req, res) => {
   const userChannel = await Channel.find({ user: req.user })
@@ -51,4 +52,17 @@ exports.editChannel = async (req, res) => {
       .status(500)
       .json({ success: false, message: "Error Editing Channel Details" });
   }
+};
+
+exports.subChannel = async (req, res) => {
+  const { channelId } = req.params;
+
+  const channelSub = await User.findByIdAndUpdate(req.user);
+
+  console.log(channelSub);
+
+  channelSub.subscriptions.push(channelId);
+  channelSub.save();
+
+  res.json({ success: true, message: "Successfully Subscribed" });
 };
