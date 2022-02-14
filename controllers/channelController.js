@@ -59,8 +59,6 @@ exports.subChannel = async (req, res) => {
 
   const channelSub = await User.findByIdAndUpdate(req.user);
 
-  console.log(channelSub);
-
   channelSub.subscriptions.push(channelId);
   channelSub.save();
 

@@ -17,6 +17,6 @@ router.post("/channel/add", JWT, addChannel);
 
 router.put("/channel/edit/:channelId", editChannel);
 
-router.put("/channel/subscription/:channelId", JWT, subChannel);
+router.get("/channel/subscription/:channelId", JWT, subChannel);
 
 module.exports = router;
