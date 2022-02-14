@@ -1,6 +1,6 @@
-const Video = require("../models/video.js");
+const Video = require("../models/video");
 const Channel = require("../models/channel");
-const video = require("../models/video.js");
+const User = require("../models/user");
 
 exports.addVideo = async (req, res) => {
   try {
@@ -33,12 +33,21 @@ exports.allVideos = async (req, res) => {
 };
 
 exports.singleVideo = async (req, res) => {
+  var channelSub;
   const { videoId } = req.params;
   try {
     const watchVideo = await Video.findById(videoId).populate("channel");
-    res.json({ success: true, watchVideo });
+    const user = await User.findOne(req.user);
+
+    if (user) {
+      channelSub = user.subscriptions.some((channel) => {
+        return channel.equals(watchVideo.channel._id);
+      });
+    }
+
+    res.json({ success: true, watchVideo, channelSub });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error });
+    return res.status(500).json({ success: false, error });
   }
 };
 
