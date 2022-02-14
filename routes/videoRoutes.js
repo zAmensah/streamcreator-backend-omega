@@ -15,7 +15,4 @@ router.get("/videos/all", allVideos);
 
 router.get("/videos/single/:videoId", videoView, singleVideo);
 
-/// Channel Section
-router.post("/channel/add", JWT, addChannel);
-
 module.exports = router;
