@@ -24,7 +24,7 @@ exports.addVideo = async (req, res) => {
 
 exports.allVideos = async (req, res) => {
   try {
-    const videos = await Video.find().populate("channel");
+    const videos = await Video.find().populate("channel").sort("-createdAt");
 
     res.json({ success: true, videos });
   } catch (err) {
@@ -41,13 +41,14 @@ exports.singleVideo = async (req, res) => {
 
     if (user) {
       channelSub = user.subscriptions.some((channel) => {
+        console.log(channelSub);
         return channel.equals(watchVideo.channel._id);
       });
     }
 
     res.json({ success: true, watchVideo, channelSub });
   } catch (error) {
-    return res.status(500).json({ success: false, error });
+    return res.status(500).json({ success: false, message: error });
   }
 };
 
