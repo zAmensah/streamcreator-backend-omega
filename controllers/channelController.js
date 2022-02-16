@@ -14,6 +14,16 @@ exports.addChannel = async (req, res) => {
     let channel = new Channel(req.body);
     channel.user = req.user;
 
+    const channelCheck = await Channel.find({ name: req.body.name });
+
+    if (channelCheck)
+      return res
+        .status(401)
+        .json({
+          success: false,
+          message: "Channel name already taken. Please try something else",
+        });
+
     await channel.save();
     res.json({ success: true, message: "Channel added successfully", channel });
   } catch (error) {
