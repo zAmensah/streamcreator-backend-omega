@@ -17,12 +17,10 @@ exports.addChannel = async (req, res) => {
     const channelCheck = await Channel.find({ name: req.body.name });
 
     if (channelCheck)
-      return res
-        .status(401)
-        .json({
-          success: false,
-          message: "Channel name already taken. Please try something else",
-        });
+      return res.status(401).json({
+        success: false,
+        message: "Channel name already taken. Please try something else",
+      });
 
     await channel.save();
     res.json({ success: true, message: "Channel added successfully", channel });
@@ -46,6 +44,8 @@ exports.singleChannel = async (req, res) => {
       .json({ success: false, message: "Error adding channel" });
   }
 };
+
+exports.userChannel = async (req, res) => {};
 
 exports.editChannel = async (req, res) => {
   const { channelId } = req.params;
@@ -73,4 +73,34 @@ exports.subChannel = async (req, res) => {
   channelSub.save();
 
   res.json({ success: true, message: "Successfully Subscribed" });
+};
+
+exports.chanelVideos = async (req, res) => {
+  const { channelId } = req.params;
+
+  try {
+    const channel = await Channel.findById(channelId).populate("videos");
+
+    return res.json({ success: true, channel });
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Error getting user channel" });
+  }
+};
+
+exports.channelSub = async (req, res) => {
+  try {
+    const channel = await User.find({ _id: req.user }).populate(
+      "subscriptions"
+    );
+    // .select("subscriptions")
+    // .populate("subscriptions");
+
+    console.log(channel);
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Error etting user subscription" });
+  }
 };

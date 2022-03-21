@@ -8,3 +8,17 @@ exports.getProfile = async (req, res) => {
     res.status(500).json({ success: false, message: error });
   }
 };
+
+exports.userChannels = async (req, res) => {
+  try {
+    const userSubscription = await User.findById(req.user)
+      .select("subscriptions")
+      .populate("subscriptions");
+
+    console.log(userSubscription);
+
+    res.json({ success: true, userSubscription });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error });
+  }
+};
