@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema(
     expireToken: Date,
     uuid: { type: String, unique: true },
     subscriptions: [{ type: ObjectId, ref: "Channel" }],
+    balance: { type: Number, default: 0 },
+    wallet: [{ type: ObjectId, ref: "Wallet" }],
   },
   { timestamps: true }
 );

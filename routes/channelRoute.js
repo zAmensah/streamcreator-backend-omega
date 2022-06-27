@@ -8,7 +8,7 @@ const {
   editChannel,
   subChannel,
   chanelVideos,
-  channelSub,
+  channelSubscription,
 } = require("../controllers/channelController");
 
 router.get("/channel/user", JWT, getUserChannel);
@@ -19,10 +19,12 @@ router.post("/channel/add", JWT, addChannel);
 
 router.put("/channel/edit/:channelId", editChannel);
 
-router.get("/channel/subscription/:channelId", JWT, subChannel);
+// router.get("/channel/subscription/:channelId", JWT, subChannel);
 
 router.get("/channel/videos/:channelId", chanelVideos);
 
-router.get("/channel/subcriptions", JWT, channelSub);
+router.post("/channel/subscription", JWT, channelSubscription);
+
+// router.get("/channel/subcriptions", JWT, channelSub);
 
 module.exports = router;

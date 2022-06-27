@@ -17,12 +17,15 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "flutterwave-node-v3": "^1.0.9",
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.9",
     "nodemailer": "^6.6.5",
     "nodemailer-sendgrid-transport": "^0.2.0",
+    "paystack-api": "^2.0.6",
     "random": "^3.0.6",
-    "slug": "^5.2.0"
+    "slug": "^5.2.0",
+    "uuid": "^8.3.2"
   }
 }

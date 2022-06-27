@@ -12,6 +12,7 @@ const channelSchema = new mongoose.Schema(
     cover: String,
     about: String,
     videos: [{ type: ObjectId, ref: "Video" }],
+    subscribers: [{ type: ObjectId, ref: "Users" }],
   },
   {
     toObject: { virtuals: true },
@@ -29,7 +30,6 @@ channelSchema.virtual("totalViews").get(function () {
       views += view.views;
     });
   }
-
   return views;
 });
 
@@ -42,7 +42,6 @@ channelSchema.virtual("totalLikes").get(function () {
       likes += view.likes;
     });
   }
-
   return likes;
 });
 

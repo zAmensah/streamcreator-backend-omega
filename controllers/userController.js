@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Channel = require("../models/channel");
 
 exports.getProfile = async (req, res) => {
   try {

@@ -64,16 +64,51 @@ exports.editChannel = async (req, res) => {
   }
 };
 
-exports.subChannel = async (req, res) => {
-  const { channelId } = req.params;
+exports.channelSubscription = async (req, res) => {
+  const { amount, userId, channelId } = req.body;
 
-  const channelSub = await User.findByIdAndUpdate(req.user);
+  try {
+    const user = await User.findById(req.user);
+    const channel = await Channel.findById(channelId);
+    const owner = await User.findById(userId);
 
-  channelSub.subscriptions.push(channelId);
-  channelSub.save();
+    if (user.balance < amount) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Insufficient balance. Please topup account to subscribe to channel.",
+      });
+    }
 
-  res.json({ success: true, message: "Successfully Subscribed" });
+    user.balance = user.balance - amount;
+    owner.balance = owner.balance + amount;
+
+    await channel.subscribers.push(req.user);
+    await user.subscriptions.push(channelId);
+
+    await user.save();
+    await channel.save();
+    await owner.save();
+
+    return res.json({
+      success: true,
+      message: "Subscribe to channel successful",
+    });
+  } catch (error) {
+    return res.status(500).json("Server error subscribing to channel");
+  }
 };
+
+// exports.subChannel = async (req, res) => {
+//   const { channelId } = req.params;
+
+//   const channelSub = await User.findByIdAndUpdate(req.user);
+
+//   channelSub.subscriptions.push(channelId);
+//   channelSub.save();
+
+//   res.json({ success: true, message: "Successfully Subscribed" });
+// };
 
 exports.chanelVideos = async (req, res) => {
   const { channelId } = req.params;
@@ -92,7 +127,7 @@ exports.chanelVideos = async (req, res) => {
 exports.channelSub = async (req, res) => {
   try {
     const channel = await User.find({ _id: req.user }).populate(
-      "subscriptions"
+      "subscriptions6"
     );
     // .select("subscriptions")
     // .populate("subscriptions");
