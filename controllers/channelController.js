@@ -95,6 +95,7 @@ exports.channelSubscription = async (req, res) => {
       message: "Subscribe to channel successful",
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json("Server error subscribing to channel");
   }
 };

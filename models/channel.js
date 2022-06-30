@@ -13,6 +13,7 @@ const channelSchema = new mongoose.Schema(
     about: String,
     videos: [{ type: ObjectId, ref: "Video" }],
     subscribers: [{ type: ObjectId, ref: "Users" }],
+    charge: { type: Number, default: 12.5 },
   },
   {
     toObject: { virtuals: true },
